@@ -22,13 +22,14 @@
 import json
 import os
 import time
-from typing import Iterator, Optional, Union
+from typing import Any, Dict, Iterator, Optional, Union
 
-from packages.valory.skills.apy_estimation.ml.forecasting import TestReportType
-from packages.valory.skills.apy_estimation.tools.etl import ResponseItemType
+from packages.valory.skills.apy_estimation_abci.ml.forecasting import TestReportType
+from packages.valory.skills.apy_estimation_abci.tools.etl import ResponseItemType
 
 
-StoredJSONType = Union[ResponseItemType, TestReportType]
+HyperParamsType = Dict[str, Any]
+StoredJSONType = Union[ResponseItemType, TestReportType, HyperParamsType]
 
 
 def gen_unix_timestamps(duration: int) -> Iterator[int]:
@@ -67,7 +68,7 @@ def to_json_file(path: str, obj: StoredJSONType) -> None:
         json.dump(obj, f, ensure_ascii=False, indent=4)
 
 
-def read_json_file(path: str) -> ResponseItemType:
+def read_json_file(path: str) -> Union[ResponseItemType, HyperParamsType]:
     """Read a json `ResponseItemType` file.
 
     :param path: the path to retrieve the json file from.
@@ -90,5 +91,7 @@ def filter_out_numbers(string: str) -> Optional[int]:
         filtered_result = None
     else:
         filtered_result = int(numeric_string)
+        # Get only the first 9 digits, because the seed cannot be > 2**32 -1
+        filtered_result = int(str(filtered_result)[:9])
 
     return filtered_result

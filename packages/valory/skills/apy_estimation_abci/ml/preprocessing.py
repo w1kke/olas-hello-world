@@ -21,12 +21,11 @@
 
 from typing import Optional, Tuple, Union
 
-import numpy as np
 import pandas as pd
 import pmdarima as pm
 
 
-TrainTestSplitType = Tuple[np.ndarray, np.ndarray]
+TrainTestSplitType = Tuple[pd.DataFrame, pd.DataFrame]
 
 
 def prepare_pair_data(
@@ -48,6 +47,15 @@ def prepare_pair_data(
     """
     # Create mask for the given pair.
     pair_m = pairs_hist["id"] == pair_id
+
+    threshold = 5
+    n_pairs = pair_m.sum()
+
+    if n_pairs == 0:
+        raise ValueError(f"Given id `{pair_id}` does not exist!")
+
+    if n_pairs < threshold:
+        raise ValueError(f"Cannot work with {n_pairs} < {threshold} observations.")
 
     # Get the pair's name.
     pair_name = pairs_hist.loc[pair_m, "pairName"].iloc[0]

@@ -26,7 +26,10 @@ from packages.valory.skills.abstract_round_abci.models import Requests as BaseRe
 from packages.valory.skills.abstract_round_abci.models import (
     SharedState as BaseSharedState,
 )
-from packages.valory.skills.apy_estimation.rounds import APYEstimationAbciApp, Event
+from packages.valory.skills.apy_estimation_abci.rounds import (
+    APYEstimationAbciApp,
+    Event,
+)
 
 
 Requests = BaseRequests
@@ -68,7 +71,6 @@ class SpookySwapSubgraph(ApiSpecs):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize SpookySwapSubgraph."""
         self.bundle_id: int = self.ensure("bundle_id", kwargs)
-        self.top_n_pools: int = self.ensure("top_n_pools", kwargs)
         super().__init__(*args, **kwargs)
 
 
@@ -77,17 +79,30 @@ class APYParams(BaseParams):  # pylint: disable=too-many-instance-attributes
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize the parameters object."""
-        self.max_healthcheck = self._ensure("max_healthcheck", kwargs)
-        self.round_timeout_seconds = self._ensure("round_timeout_seconds", kwargs)
-        self.sleep_time = self._ensure("sleep_time", kwargs)
-        self.retry_attempts = self._ensure("retry_attempts", kwargs)
-        self.retry_timeout = self._ensure("retry_timeout", kwargs)
-        self.observation_interval = self._ensure("observation_interval", kwargs)
-        self.drand_public_key = self._ensure("drand_public_key", kwargs)
         self.history_duration = self._ensure("history_duration", kwargs)
-        self.data_folder = self._ensure("data_folder", kwargs)
         self.optimizer_params = self._ensure("optimizer", kwargs)
         self.testing = self._ensure("testing", kwargs)
         self.estimation = self._ensure("estimation", kwargs)
-        self.pair_id = self._ensure("pair_id", kwargs)
+        self.pair_ids = self._ensure("pair_ids", kwargs)
         super().__init__(*args, **kwargs)
+
+        self.__validate_params()
+
+    def __validate_params(self) -> None:
+        """Validate the given parameters."""
+        # Eventually, we should probably validate all the parameters.
+        if self.optimizer_params["timeout"] == "None":
+            self.optimizer_params["timeout"] = None
+        elif not isinstance(self.optimizer_params["timeout"], int):
+            raise ValueError(
+                "Parameter `timeout` can be either of type `int` or `None`. "
+                f"{self.optimizer_params['timeout']} was given."
+            )
+
+        if self.optimizer_params["window_size"] == "None":
+            self.optimizer_params["window_size"] = None
+        elif not isinstance(self.optimizer_params["window_size"], int):
+            raise ValueError(
+                "Parameter `window_size` can be either of type `int` or `None`. "
+                f"{self.optimizer_params['window_size']} was given."
+            )

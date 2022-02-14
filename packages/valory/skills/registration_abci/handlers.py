@@ -17,4 +17,23 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the support resources for the gnosis_safe (GnosisSafeL2) contract."""
+"""This module contains the handler for the 'registration_abci' skill."""
+
+from packages.valory.skills.abstract_round_abci.handlers import (
+    ContractApiHandler as AbstractRoundContractApiHandler,
+)
+from packages.valory.skills.abstract_round_abci.handlers import (
+    HttpHandler as AbstractRoundHttpHandler,
+)
+from packages.valory.skills.abstract_round_abci.handlers import (
+    LedgerApiHandler as AbstractRoundLedgerApiHandler,
+)
+from packages.valory.skills.abstract_round_abci.handlers import (
+    SigningHandler as AbstractRoundSigningHandler,
+)
+
+
+HttpHandler = AbstractRoundHttpHandler
+SigningHandler = AbstractRoundSigningHandler
+LedgerApiHandler = AbstractRoundLedgerApiHandler
+ContractApiHandler = AbstractRoundContractApiHandler

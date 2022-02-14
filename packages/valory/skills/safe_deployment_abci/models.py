@@ -17,22 +17,16 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the shared state for the 'simple_abci' application."""
+"""This module contains the shared state for the safe_deployment_abci skill."""
 
 from typing import Any
 
-from packages.valory.skills.abstract_round_abci.models import ApiSpecs, BaseParams
+from packages.valory.skills.abstract_round_abci.models import BaseParams
 from packages.valory.skills.abstract_round_abci.models import Requests as BaseRequests
 from packages.valory.skills.abstract_round_abci.models import (
     SharedState as BaseSharedState,
 )
-from packages.valory.skills.simple_abci.rounds import Event, SimpleAbciApp
-
-
-MARGIN = 5
-
-
-Requests = BaseRequests
+from packages.valory.skills.safe_deployment_abci.rounds import SafeDeploymentAbciApp
 
 
 class SharedState(BaseSharedState):
@@ -40,21 +34,8 @@ class SharedState(BaseSharedState):
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize the state."""
-        super().__init__(*args, abci_app_cls=SimpleAbciApp, **kwargs)
-
-    def setup(self) -> None:
-        """Set up."""
-        super().setup()
-        SimpleAbciApp.event_to_timeout[
-            Event.ROUND_TIMEOUT
-        ] = self.context.params.round_timeout_seconds
-        SimpleAbciApp.event_to_timeout[Event.RESET_TIMEOUT] = (
-            self.context.params.observation_interval + MARGIN
-        )
+        super().__init__(*args, abci_app_cls=SafeDeploymentAbciApp, **kwargs)
 
 
 Params = BaseParams
-
-
-class RandomnessApi(ApiSpecs):
-    """A model that wraps ApiSpecs for randomness api specifications."""
+Requests = BaseRequests

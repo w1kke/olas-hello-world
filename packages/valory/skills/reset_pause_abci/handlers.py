@@ -21,9 +21,13 @@
 
 from packages.valory.skills.abstract_round_abci.handlers import ABCIRoundHandler
 from packages.valory.skills.abstract_round_abci.handlers import (
+    HttpHandler as BaseHttpHandler,
+)
+from packages.valory.skills.abstract_round_abci.handlers import (
     SigningHandler as BaseSigningHandler,
 )
 
 
 ResetPauseABCIHandler = ABCIRoundHandler
+HttpHandler = BaseHttpHandler
 SigningHandler = BaseSigningHandler

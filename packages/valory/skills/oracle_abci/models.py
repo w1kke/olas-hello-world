@@ -17,7 +17,7 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the shared state for the liquidity provision ABCI application."""
+"""This module contains the shared state for the price estimation app ABCI application."""
 
 from typing import Any
 
@@ -28,12 +28,23 @@ from packages.valory.skills.abstract_round_abci.models import Requests as BaseRe
 from packages.valory.skills.abstract_round_abci.models import (
     SharedState as BaseSharedState,
 )
-from packages.valory.skills.liquidity_provision.composition import (
-    LiquidityProvisionAbciApp,
+from packages.valory.skills.oracle_abci.composition import OracleAbciApp
+from packages.valory.skills.oracle_deployment_abci.rounds import Event as OracleEvent
+from packages.valory.skills.price_estimation_abci.models import (
+    Params as PriceEstimationParams,
+)
+from packages.valory.skills.price_estimation_abci.models import (
+    PriceApi as PriceEstimationPriceApi,
+)
+from packages.valory.skills.price_estimation_abci.models import (
+    RandomnessApi as PriceEstimationRandomnessApi,
+)
+from packages.valory.skills.price_estimation_abci.models import (
+    ServerApi as PriceEstimationServerApi,
 )
 from packages.valory.skills.price_estimation_abci.rounds import Event
+from packages.valory.skills.reset_pause_abci.rounds import Event as ResetPauseEvent
 from packages.valory.skills.safe_deployment_abci.rounds import Event as SafeEvent
-from packages.valory.skills.transaction_settlement_abci.models import TransactionParams
 from packages.valory.skills.transaction_settlement_abci.rounds import Event as TSEvent
 
 
@@ -42,6 +53,10 @@ MULTIPLIER = 2
 
 Requests = BaseRequests
 BenchmarkTool = BaseBenchmarkTool
+Params = PriceEstimationParams
+RandomnessApi = PriceEstimationRandomnessApi
+PriceApi = PriceEstimationPriceApi
+ServerApi = PriceEstimationServerApi
 
 
 class SharedState(BaseSharedState):
@@ -49,42 +64,47 @@ class SharedState(BaseSharedState):
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize the state."""
-        super().__init__(*args, abci_app_cls=LiquidityProvisionAbciApp, **kwargs)
+        super().__init__(*args, abci_app_cls=OracleAbciApp, **kwargs)
 
     def setup(self) -> None:
         """Set up."""
         super().setup()
-        LiquidityProvisionAbciApp.event_to_timeout[
+        OracleAbciApp.event_to_timeout[
             Event.ROUND_TIMEOUT
         ] = self.context.params.round_timeout_seconds
-        LiquidityProvisionAbciApp.event_to_timeout[
+        OracleAbciApp.event_to_timeout[
             SafeEvent.ROUND_TIMEOUT
         ] = self.context.params.round_timeout_seconds
-        LiquidityProvisionAbciApp.event_to_timeout[
+        OracleAbciApp.event_to_timeout[
+            OracleEvent.ROUND_TIMEOUT
+        ] = self.context.params.round_timeout_seconds
+        OracleAbciApp.event_to_timeout[
             TSEvent.ROUND_TIMEOUT
         ] = self.context.params.round_timeout_seconds
-        LiquidityProvisionAbciApp.event_to_timeout[TSEvent.RESET_TIMEOUT] = (
+        OracleAbciApp.event_to_timeout[
+            ResetPauseEvent.ROUND_TIMEOUT
+        ] = self.context.params.round_timeout_seconds
+        OracleAbciApp.event_to_timeout[TSEvent.RESET_TIMEOUT] = (
             self.context.params.round_timeout_seconds * MULTIPLIER
         )
-        LiquidityProvisionAbciApp.event_to_timeout[SafeEvent.VALIDATE_TIMEOUT] = (
+        OracleAbciApp.event_to_timeout[SafeEvent.VALIDATE_TIMEOUT] = (
             self.context.params.retry_timeout * self.context.params.retry_attempts
             + MARGIN
         )
-        LiquidityProvisionAbciApp.event_to_timeout[TSEvent.VALIDATE_TIMEOUT] = (
+        OracleAbciApp.event_to_timeout[OracleEvent.VALIDATE_TIMEOUT] = (
             self.context.params.retry_timeout * self.context.params.retry_attempts
             + MARGIN
         )
-        LiquidityProvisionAbciApp.event_to_timeout[SafeEvent.DEPLOY_TIMEOUT] = (
+        OracleAbciApp.event_to_timeout[TSEvent.VALIDATE_TIMEOUT] = (
+            self.context.params.retry_timeout * self.context.params.retry_attempts
+            + MARGIN
+        )
+        OracleAbciApp.event_to_timeout[OracleEvent.DEPLOY_TIMEOUT] = (
             self.context.params.keeper_timeout + MARGIN
         )
-
-
-class Params(TransactionParams):
-    """Parameters."""
-
-    observation_interval: float
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        """Initialize the parameters object."""
-        self.rebalancing_params = self._ensure("rebalancing", kwargs)
-        super().__init__(*args, **kwargs)
+        OracleAbciApp.event_to_timeout[SafeEvent.DEPLOY_TIMEOUT] = (
+            self.context.params.keeper_timeout + MARGIN
+        )
+        OracleAbciApp.event_to_timeout[ResetPauseEvent.RESET_AND_PAUSE_TIMEOUT] = (
+            self.context.params.observation_interval + MARGIN
+        )

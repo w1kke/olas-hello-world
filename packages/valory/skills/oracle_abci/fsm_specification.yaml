@@ -3,9 +3,6 @@ alphabet_in:
 - CHECK_LATE_ARRIVING_MESSAGE
 - DEPLOY_TIMEOUT
 - DONE
-- DONE_ENTER
-- DONE_EXIT
-- DONE_SWAP_BACK
 - FAILED
 - FAST_FORWARD
 - FINALIZATION_FAILED
@@ -19,31 +16,33 @@ alphabet_in:
 - VALIDATE_TIMEOUT
 default_start_state: RegistrationStartupRound
 final_states: []
-label: packages.valory.skills.liquidity_provision.composition.LiquidityProvisionAbciApp
+label: packages.valory.skills.oracle_abci.composition.OracleAbciApp
 start_states:
 - RegistrationStartupRound
 states:
 - CheckLateTxHashesRound
 - CheckTransactionHistoryRound
+- CollectObservationRound
 - CollectSignatureRound
+- DeployOracleRound
 - DeploySafeRound
-- EnterPoolTransactionHashRound
-- ExitPoolTransactionHashRound
+- EstimateConsensusRound
 - FinalizationRound
+- RandomnessOracleRound
 - RandomnessSafeRound
 - RandomnessTransactionSubmissionRound
 - RegistrationRound
 - RegistrationStartupRound
 - ResetAndPauseRound
 - ResetRound
+- SelectKeeperOracleRound
 - SelectKeeperSafeRound
 - SelectKeeperTransactionSubmissionRoundA
 - SelectKeeperTransactionSubmissionRoundB
 - SelectKeeperTransactionSubmissionRoundBAfterTimeout
-- SleepRound
-- StrategyEvaluationRound
-- SwapBackTransactionHashRound
 - SynchronizeLateMessagesRound
+- TxHashRound
+- ValidateOracleRound
 - ValidateSafeRound
 - ValidateTransactionRound
 transition_func:
@@ -58,38 +57,47 @@ transition_func:
     (CheckTransactionHistoryRound, NONE): RegistrationRound
     (CheckTransactionHistoryRound, NO_MAJORITY): RegistrationRound
     (CheckTransactionHistoryRound, ROUND_TIMEOUT): CheckTransactionHistoryRound
+    (CollectObservationRound, DONE): EstimateConsensusRound
+    (CollectObservationRound, NO_MAJORITY): CollectObservationRound
+    (CollectObservationRound, ROUND_TIMEOUT): CollectObservationRound
     (CollectSignatureRound, DONE): FinalizationRound
     (CollectSignatureRound, NO_MAJORITY): ResetRound
     (CollectSignatureRound, ROUND_TIMEOUT): ResetRound
+    (DeployOracleRound, DEPLOY_TIMEOUT): SelectKeeperOracleRound
+    (DeployOracleRound, DONE): ValidateOracleRound
+    (DeployOracleRound, FAILED): SelectKeeperOracleRound
     (DeploySafeRound, DEPLOY_TIMEOUT): SelectKeeperSafeRound
     (DeploySafeRound, DONE): ValidateSafeRound
     (DeploySafeRound, FAILED): SelectKeeperSafeRound
-    (EnterPoolTransactionHashRound, DONE): RandomnessTransactionSubmissionRound
-    (EnterPoolTransactionHashRound, NO_MAJORITY): StrategyEvaluationRound
-    (EnterPoolTransactionHashRound, ROUND_TIMEOUT): StrategyEvaluationRound
-    (ExitPoolTransactionHashRound, DONE): RandomnessTransactionSubmissionRound
-    (ExitPoolTransactionHashRound, NO_MAJORITY): StrategyEvaluationRound
-    (ExitPoolTransactionHashRound, ROUND_TIMEOUT): StrategyEvaluationRound
+    (EstimateConsensusRound, DONE): TxHashRound
+    (EstimateConsensusRound, NO_MAJORITY): CollectObservationRound
+    (EstimateConsensusRound, ROUND_TIMEOUT): CollectObservationRound
     (FinalizationRound, CHECK_HISTORY): CheckTransactionHistoryRound
     (FinalizationRound, CHECK_LATE_ARRIVING_MESSAGE): SynchronizeLateMessagesRound
     (FinalizationRound, DONE): ValidateTransactionRound
     (FinalizationRound, FINALIZATION_FAILED): SelectKeeperTransactionSubmissionRoundB
     (FinalizationRound, ROUND_TIMEOUT): SelectKeeperTransactionSubmissionRoundBAfterTimeout
+    (RandomnessOracleRound, DONE): SelectKeeperOracleRound
+    (RandomnessOracleRound, NO_MAJORITY): RandomnessOracleRound
+    (RandomnessOracleRound, ROUND_TIMEOUT): RandomnessOracleRound
     (RandomnessSafeRound, DONE): SelectKeeperSafeRound
     (RandomnessSafeRound, NO_MAJORITY): RandomnessSafeRound
     (RandomnessSafeRound, ROUND_TIMEOUT): RandomnessSafeRound
     (RandomnessTransactionSubmissionRound, DONE): SelectKeeperTransactionSubmissionRoundA
     (RandomnessTransactionSubmissionRound, NO_MAJORITY): RandomnessTransactionSubmissionRound
     (RandomnessTransactionSubmissionRound, ROUND_TIMEOUT): ResetRound
-    (RegistrationRound, DONE): StrategyEvaluationRound
+    (RegistrationRound, DONE): CollectObservationRound
     (RegistrationStartupRound, DONE): RandomnessSafeRound
-    (RegistrationStartupRound, FAST_FORWARD): StrategyEvaluationRound
-    (ResetAndPauseRound, DONE): StrategyEvaluationRound
+    (RegistrationStartupRound, FAST_FORWARD): CollectObservationRound
+    (ResetAndPauseRound, DONE): CollectObservationRound
     (ResetAndPauseRound, NO_MAJORITY): RegistrationRound
     (ResetAndPauseRound, RESET_AND_PAUSE_TIMEOUT): RegistrationRound
     (ResetRound, DONE): RandomnessTransactionSubmissionRound
     (ResetRound, NO_MAJORITY): RegistrationRound
     (ResetRound, RESET_TIMEOUT): RegistrationRound
+    (SelectKeeperOracleRound, DONE): DeployOracleRound
+    (SelectKeeperOracleRound, NO_MAJORITY): RandomnessOracleRound
+    (SelectKeeperOracleRound, ROUND_TIMEOUT): RandomnessOracleRound
     (SelectKeeperSafeRound, DONE): DeploySafeRound
     (SelectKeeperSafeRound, NO_MAJORITY): RandomnessSafeRound
     (SelectKeeperSafeRound, ROUND_TIMEOUT): RandomnessSafeRound
@@ -103,24 +111,21 @@ transition_func:
     (SelectKeeperTransactionSubmissionRoundBAfterTimeout, DONE): FinalizationRound
     (SelectKeeperTransactionSubmissionRoundBAfterTimeout, NO_MAJORITY): ResetRound
     (SelectKeeperTransactionSubmissionRoundBAfterTimeout, ROUND_TIMEOUT): ResetRound
-    (SleepRound, DONE): StrategyEvaluationRound
-    (SleepRound, NO_MAJORITY): StrategyEvaluationRound
-    (SleepRound, ROUND_TIMEOUT): StrategyEvaluationRound
-    (StrategyEvaluationRound, DONE): SleepRound
-    (StrategyEvaluationRound, DONE_ENTER): EnterPoolTransactionHashRound
-    (StrategyEvaluationRound, DONE_EXIT): ExitPoolTransactionHashRound
-    (StrategyEvaluationRound, DONE_SWAP_BACK): SwapBackTransactionHashRound
-    (StrategyEvaluationRound, NO_MAJORITY): StrategyEvaluationRound
-    (StrategyEvaluationRound, ROUND_TIMEOUT): StrategyEvaluationRound
-    (SwapBackTransactionHashRound, DONE): RandomnessTransactionSubmissionRound
-    (SwapBackTransactionHashRound, NO_MAJORITY): StrategyEvaluationRound
-    (SwapBackTransactionHashRound, ROUND_TIMEOUT): StrategyEvaluationRound
     (SynchronizeLateMessagesRound, DONE): CheckLateTxHashesRound
     (SynchronizeLateMessagesRound, MISSED_AND_LATE_MESSAGES_MISMATCH): RegistrationRound
     (SynchronizeLateMessagesRound, NONE): RegistrationRound
     (SynchronizeLateMessagesRound, NO_MAJORITY): SynchronizeLateMessagesRound
     (SynchronizeLateMessagesRound, ROUND_TIMEOUT): SynchronizeLateMessagesRound
-    (ValidateSafeRound, DONE): StrategyEvaluationRound
+    (TxHashRound, DONE): RandomnessTransactionSubmissionRound
+    (TxHashRound, NONE): CollectObservationRound
+    (TxHashRound, NO_MAJORITY): CollectObservationRound
+    (TxHashRound, ROUND_TIMEOUT): CollectObservationRound
+    (ValidateOracleRound, DONE): CollectObservationRound
+    (ValidateOracleRound, NEGATIVE): RandomnessOracleRound
+    (ValidateOracleRound, NONE): RandomnessOracleRound
+    (ValidateOracleRound, NO_MAJORITY): RandomnessOracleRound
+    (ValidateOracleRound, VALIDATE_TIMEOUT): RandomnessOracleRound
+    (ValidateSafeRound, DONE): RandomnessOracleRound
     (ValidateSafeRound, NEGATIVE): RandomnessSafeRound
     (ValidateSafeRound, NONE): RandomnessSafeRound
     (ValidateSafeRound, NO_MAJORITY): RandomnessSafeRound

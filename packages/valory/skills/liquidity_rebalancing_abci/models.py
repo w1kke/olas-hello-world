@@ -17,11 +17,10 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the shared state for the safe_deployment_abci skill."""
+"""This module contains the shared state for the liquidity rebalancing ABCI application."""
 
 from typing import Any
 
-from packages.valory.skills.abstract_round_abci.models import ApiSpecs, BaseParams
 from packages.valory.skills.abstract_round_abci.models import (
     BenchmarkTool as BaseBenchmarkTool,
 )
@@ -29,7 +28,17 @@ from packages.valory.skills.abstract_round_abci.models import Requests as BaseRe
 from packages.valory.skills.abstract_round_abci.models import (
     SharedState as BaseSharedState,
 )
-from packages.valory.skills.safe_deployment_abci.rounds import SafeDeploymentAbciApp
+from packages.valory.skills.liquidity_rebalancing_abci.rounds import (
+    LiquidityRebalancingAbciApp,
+)
+from packages.valory.skills.transaction_settlement_abci.models import TransactionParams
+
+
+MARGIN = 5
+MULTIPLIER = 2
+
+Requests = BaseRequests
+BenchmarkTool = BaseBenchmarkTool
 
 
 class SharedState(BaseSharedState):
@@ -37,13 +46,15 @@ class SharedState(BaseSharedState):
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize the state."""
-        super().__init__(*args, abci_app_cls=SafeDeploymentAbciApp, **kwargs)
+        super().__init__(*args, abci_app_cls=LiquidityRebalancingAbciApp, **kwargs)
 
 
-class RandomnessApi(ApiSpecs):
-    """A model for randomness api specifications."""
+class Params(TransactionParams):
+    """Parameters."""
 
+    observation_interval: float
 
-Params = BaseParams
-Requests = BaseRequests
-BenchmarkTool = BaseBenchmarkTool
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """Initialize the parameters object."""
+        self.rebalancing_params = self._ensure("rebalancing", kwargs)
+        super().__init__(*args, **kwargs)

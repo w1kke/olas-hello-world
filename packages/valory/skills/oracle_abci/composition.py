@@ -17,24 +17,33 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the liquidity provision ABCI application."""
+"""This module contains the price estimation ABCI application."""
 
 from packages.valory.skills.abstract_round_abci.abci_app_chain import (
     AbciAppTransitionMapping,
     chain,
 )
-from packages.valory.skills.liquidity_provision.rounds import (
-    FinishedEnterPoolTransactionHashRound,
-    FinishedExitPoolTransactionHashRound,
-    FinishedSwapBackTransactionHashRound,
-    LiquidityRebalancingAbciApp,
-    StrategyEvaluationRound,
+from packages.valory.skills.oracle_deployment_abci.rounds import (
+    FinishedOracleRound,
+    OracleDeploymentAbciApp,
+    RandomnessOracleRound,
+)
+from packages.valory.skills.price_estimation_abci.rounds import (
+    CollectObservationRound,
+    FinishedPriceAggregationRound,
+    PriceAggregationAbciApp,
 )
 from packages.valory.skills.registration_abci.rounds import (
     AgentRegistrationAbciApp,
     FinishedRegistrationFFWRound,
     FinishedRegistrationRound,
     RegistrationRound,
+)
+from packages.valory.skills.reset_pause_abci.rounds import (
+    FinishedResetAndPauseErrorRound,
+    FinishedResetAndPauseRound,
+    ResetAndPauseRound,
+    ResetPauseABCIApp,
 )
 from packages.valory.skills.safe_deployment_abci.rounds import (
     FinishedSafeRound,
@@ -51,21 +60,24 @@ from packages.valory.skills.transaction_settlement_abci.rounds import (
 
 abci_app_transition_mapping: AbciAppTransitionMapping = {
     FinishedRegistrationRound: RandomnessSafeRound,
-    FinishedSafeRound: StrategyEvaluationRound,
-    FinishedRegistrationFFWRound: StrategyEvaluationRound,
-    FinishedEnterPoolTransactionHashRound: RandomnessTransactionSubmissionRound,
-    FinishedExitPoolTransactionHashRound: RandomnessTransactionSubmissionRound,
-    FinishedSwapBackTransactionHashRound: RandomnessTransactionSubmissionRound,
-    FinishedTransactionSubmissionRound: StrategyEvaluationRound,
+    FinishedSafeRound: RandomnessOracleRound,
+    FinishedOracleRound: CollectObservationRound,
+    FinishedRegistrationFFWRound: CollectObservationRound,
+    FinishedPriceAggregationRound: RandomnessTransactionSubmissionRound,
     FailedRound: RegistrationRound,
+    FinishedTransactionSubmissionRound: ResetAndPauseRound,
+    FinishedResetAndPauseRound: CollectObservationRound,
+    FinishedResetAndPauseErrorRound: RegistrationRound,
 }
 
-LiquidityProvisionAbciApp = chain(
+OracleAbciApp = chain(
     (
         AgentRegistrationAbciApp,
         SafeDeploymentAbciApp,
-        LiquidityRebalancingAbciApp,
+        OracleDeploymentAbciApp,
+        PriceAggregationAbciApp,
         TransactionSubmissionAbciApp,
+        ResetPauseABCIApp,
     ),
     abci_app_transition_mapping,
 )

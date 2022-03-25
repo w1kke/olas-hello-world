@@ -1,21 +1,20 @@
-name: liquidity_provision
+name: liquidity_provision_abci
 author: valory
 version: 0.1.0
 type: skill
-description: This skill implements liquidity provision capacities to move into and
+description: This skill implements liquidity rebalancing capacities to move into and
   out of Uniswap-V2-based liquidity pools.
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
   README.md: QmR5sLQeLggNn5gZ1kDWrqpkz5NzMdUZuWNkaQDpaMC85C
-  __init__.py: QmZi2zjuEfocSD4fJyHCRHKYPwRiMizJh5cG4r7q3Hcxuo
-  behaviours.py: QmdoQirgLw1twdA2LxyvZmHzAiA6PFAawPkvfem9Mj2TGX
-  composition.py: QmNQDobHqEFV6XExTWrLnGnYTUDGqsbKH94KasSHw1n9Zi
-  dialogues.py: QmdBmUMWoPbS2faqn8LicQVJfN6a2WjtdZDWFbiYoy7hfY
-  handlers.py: QmYNuneHUsxPfGricmSREyKom4fsAoE3NU7Xv8y3iYCDke
-  models.py: QmdGin5fQAh5gXx38J4ukSaTdEFA5DPzA4Q3rKccVrwN16
-  payloads.py: QmQnC6GNA6an3h14Jm1nM12W9BuDwATNYJhz3f8vuKBinw
-  rounds.py: QmRqyfjuXusttxDvqJoXxvNTRftDe5S6JHCkroHwrhbgyS
+  __init__.py: QmNuC15NDuuzyfhdpYLpoVajvPGXN3EKR9GdBHDdM1mzgM
+  behaviours.py: QmZQeqJJ8j38y2LPvAfLnTwL3oSdjSeAYCjt4jH7JF315Z
+  composition.py: QmXdsJZJJPba243WZ2jcoiJz4vFuw5ujFUXuEjoTkxY81H
+  dialogues.py: QmfDThV4WCRzK88XDpW2hKDYCuEH4RxoHCoAkWpkBRGRPv
+  fsm_specification.yaml: QmdKvMeRpHT95VBi67h5WtoFf79eNA96V9WgK9uTtw52BM
+  handlers.py: QmRbhnYTWnUPsWHYg9CbLhWQTFfw9faRZwjbTD6BGv7YtD
+  models.py: QmRXmJ1e1nxy6GCpUEVzcbSiKYNBXJ3JoTwGxpg2KuW82t
 fingerprint_ignore_patterns: []
 connections:
 - valory/abci:0.1.0
@@ -34,7 +33,10 @@ protocols:
 - valory/ledger_api:1.0.0
 skills:
 - valory/abstract_round_abci:0.1.0
-- valory/price_estimation_abci:0.1.0
+- valory/liquidity_rebalancing_abci:0.1.0
+- valory/registration_abci:0.1.0
+- valory/reset_pause_abci:0.1.0
+- valory/safe_deployment_abci:0.1.0
 - valory/transaction_settlement_abci:0.1.0
 behaviours:
   main:
@@ -43,7 +45,7 @@ behaviours:
 handlers:
   abci:
     args: {}
-    class_name: ABCILiquidityProvision
+    class_name: ABCILiquidityRebalancing
   contract_api:
     args: {}
     class_name: ContractApiHandler
@@ -60,6 +62,10 @@ models:
   abci_dialogues:
     args: {}
     class_name: AbciDialogues
+  benchmark_tool:
+    args:
+      log_dir: /logs
+    class_name: BenchmarkTool
   contract_api_dialogues:
     args: {}
     class_name: ContractApiDialogues
@@ -71,6 +77,7 @@ models:
     class_name: LedgerApiDialogues
   params:
     args:
+      cleanup_history_depth: 1
       consensus:
         max_participants: 1
       drand_public_key: 868f005eb8e6e4ca0a47c8a77ceaa5309a47978a7c71bc5cce96366b5d7a569937c529eeda66c7293784a9402801af31
@@ -96,7 +103,7 @@ models:
       retry_attempts: 400
       retry_timeout: 3
       round_timeout_seconds: 30.0
-      service_id: liquidity_provision
+      service_id: liquidity_rebalancing
       sleep_time: 1
       tendermint_check_sleep_delay: 3
       tendermint_com_url: http://localhost:8080

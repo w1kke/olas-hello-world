@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021 Valory AG
+#   Copyright 2021-2022 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -17,9 +17,23 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the liquidity provision skill for an AEA."""
+"""This module contains the handler for the 'reset_pause_abci' skill."""
 
-from aea.configurations.base import PublicId
+from packages.valory.skills.abstract_round_abci.handlers import (
+    ContractApiHandler as AbstractRoundContractApiHandler,
+)
+from packages.valory.skills.abstract_round_abci.handlers import (
+    HttpHandler as BaseHttpHandler,
+)
+from packages.valory.skills.abstract_round_abci.handlers import (
+    LedgerApiHandler as AbstractRoundLedgerApiHandler,
+)
+from packages.valory.skills.abstract_round_abci.handlers import (
+    SigningHandler as BaseSigningHandler,
+)
 
 
-PUBLIC_ID = PublicId.from_str("valory/liquidity_provision:0.1.0")
+HttpHandler = BaseHttpHandler
+SigningHandler = BaseSigningHandler
+ContractApiHandler = AbstractRoundContractApiHandler
+LedgerApiHandler = AbstractRoundLedgerApiHandler

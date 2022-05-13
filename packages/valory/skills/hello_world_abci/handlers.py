@@ -17,25 +17,17 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the handler for the 'transaction_settlement_abci' skill."""
+"""This module contains the handler for the Hello World skill."""
 
 from packages.valory.skills.abstract_round_abci.handlers import ABCIRoundHandler
 from packages.valory.skills.abstract_round_abci.handlers import (
-    ContractApiHandler as AbstractRoundContractApiHandler,
+    HttpHandler as BaseHttpHandler,
 )
 from packages.valory.skills.abstract_round_abci.handlers import (
-    HttpHandler as AbstractRoundHttpHandler,
-)
-from packages.valory.skills.abstract_round_abci.handlers import (
-    LedgerApiHandler as AbstractRoundLedgerApiHandler,
-)
-from packages.valory.skills.abstract_round_abci.handlers import (
-    SigningHandler as AbstractRoundSigningHandler,
+    SigningHandler as BaseSigningHandler,
 )
 
 
-ABCIHandler = ABCIRoundHandler
-HttpHandler = AbstractRoundHttpHandler
-SigningHandler = AbstractRoundSigningHandler
-LedgerApiHandler = AbstractRoundLedgerApiHandler
-ContractApiHandler = AbstractRoundContractApiHandler
+HelloWorldABCIHandler = ABCIRoundHandler
+HttpHandler = BaseHttpHandler
+SigningHandler = BaseSigningHandler

@@ -1,46 +1,42 @@
-name: reset_pause_abci
+name: hello_world_abci
 author: valory
 version: 0.1.0
 type: skill
-description: ABCI application for resetting and pausing app executions.
+description: Hello World ABCI application.
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
-  README.md: Qmcvjeds5EyiUvea61GNy8YE4rYzvMDh79GJMhBz3NK7Q5
-  __init__.py: QmUFuoq77B1FjZSeHGAyW8AgJnGNh9Z1amEGK7UTH8iP7J
-  behaviours.py: QmUbyz1vDMgCUrHygygwzjdQYorVMwxs8AUA1tAJj8JjVJ
-  dialogues.py: Qmd54DnNEsybMJb78HTcW2HABVBZCL1FuQL8ELKq3xB6Jw
-  fsm_specification.yaml: QmUeA76vgnHNSyrQDsU1zWgMwB13WXk6ZqorvAcactLPwY
-  handlers.py: QmRdZj98pGjhpDSAB1Kgymeauwq1impiX8Cs2H8Un1CeBs
-  models.py: QmPegRgrqVr6fMECoYCd3k7VDKdndBNMTuiPVrGTM9SW3o
-  payloads.py: QmSds2L9BKR4157xqGgH22dG8ojq6hc1BG2JH9NgzhxgVp
-  rounds.py: QmfXwDXfqLQWS5THNPaz4N7rk515hJqyd3u4aV6W995FH1
+  README.md: QmVxvpqGSFfXbJ9GyWLqaAsVB2cYn92m7wybxb7wggi1Ri
+  __init__.py: QmR2xbdp5bQTP44mAQB1utN7Tp16HM2akMLA51RC2PYdUN
+  behaviours.py: QmUsV7YsEgbwMnDZHgXNzwF4bdFaH7YPAtKLaKCz5WYb9t
+  dialogues.py: QmbhsSNfPQBL4qeq3B2yDmr1TXGeg1TLjcW2YJNcFwUe8P
+  fsm_specification.yaml: QmNyPHYvkYJnJPSQB53owEt7Kjj2jnvfUR5ucNzVug1xLS
+  handlers.py: QmSeSEdJzN4YtM2Qy59SHsfERtS58HyyFMkpyu9JR7pqxu
+  models.py: QmWL6tQvUwLDWkGEtJNTy42zQ6TG6h1dV8VBYYQB82oiC3
+  payloads.py: QmWFfkHiAsbkgDDgwVRHHWgfLtog6RTm5JVsqMDXp5oGTv
+  rounds.py: QmZR2r1q8FjcqHqepQArQgrwvmDHXzNEiWYYbq6AvqykHx
 fingerprint_ignore_patterns: []
 connections:
-- valory/abci:0.1.0:QmaPFp3Jwf6uv9VSAoMJfJHFS9ESPeX8hCB7HLi41c8WzS
+- valory/abci:0.1.0
+- valory/http_client:0.1.0
 contracts: []
 protocols:
-- open_aea/signing:1.0.0:QmQJpw5ZBDravLLZzU6WDdgxvxoT89AtahHPshrqfgoLTg
-- valory/abci:0.1.0:QmaPFp3Jwf6uv9VSAoMJfJHFS9ESPeX8hCB7HLi41c8WzS
+- open_aea/signing:1.0.0
+- valory/abci:0.1.0
+- valory/http:1.0.0
 skills:
-- valory/abstract_round_abci:0.1.0:QmYJgbvJ6PStEMej1H5tK9rrg7byJi8gcZE3CQNX7EUfjR
+- valory/abstract_round_abci:0.1.0
 behaviours:
   main:
     args: {}
-    class_name: ResetPauseABCIConsensusBehaviour
+    class_name: HelloWorldRoundBehaviour
 handlers:
   abci:
     args: {}
-    class_name: ABCIHandler
-  contract_api:
-    args: {}
-    class_name: ContractApiHandler
+    class_name: HelloWorldABCIHandler
   http:
     args: {}
     class_name: HttpHandler
-  ledger_api:
-    args: {}
-    class_name: LedgerApiHandler
   signing:
     args: {}
     class_name: SigningHandler
@@ -69,7 +65,7 @@ models:
       retry_attempts: 400
       retry_timeout: 3
       round_timeout_seconds: 30.0
-      service_id: reset_pause_abci
+      service_id: hello_world_abci
       sleep_time: 1
       tendermint_check_sleep_delay: 3
       tendermint_com_url: http://localhost:8080
@@ -86,4 +82,4 @@ models:
     args: {}
     class_name: SharedState
 dependencies: {}
-is_abstract: true
+is_abstract: false

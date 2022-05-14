@@ -17,11 +17,11 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the shared state for the safe_deployment_abci skill."""
+"""This module contains the shared state for the Hello World application."""
 
 from typing import Any
 
-from packages.valory.skills.abstract_round_abci.models import ApiSpecs, BaseParams
+from packages.valory.skills.abstract_round_abci.models import BaseParams
 from packages.valory.skills.abstract_round_abci.models import (
     BenchmarkTool as BaseBenchmarkTool,
 )
@@ -29,7 +29,14 @@ from packages.valory.skills.abstract_round_abci.models import Requests as BaseRe
 from packages.valory.skills.abstract_round_abci.models import (
     SharedState as BaseSharedState,
 )
-from packages.valory.skills.safe_deployment_abci.rounds import SafeDeploymentAbciApp
+from packages.valory.skills.hello_world_abci.rounds import Event, HelloWorldAbciApp
+
+
+MARGIN = 5
+
+
+Requests = BaseRequests
+BenchmarkTool = BaseBenchmarkTool
 
 
 class SharedState(BaseSharedState):
@@ -37,21 +44,17 @@ class SharedState(BaseSharedState):
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize the state."""
-        super().__init__(*args, abci_app_cls=SafeDeploymentAbciApp, **kwargs)
+        super().__init__(*args, abci_app_cls=HelloWorldAbciApp, **kwargs)
+
+    def setup(self) -> None:
+        """Set up."""
+        super().setup()
+        HelloWorldAbciApp.event_to_timeout[
+            Event.ROUND_TIMEOUT
+        ] = self.context.params.round_timeout_seconds
+        HelloWorldAbciApp.event_to_timeout[Event.RESET_TIMEOUT] = (
+            self.context.params.observation_interval + MARGIN
+        )
 
 
-class Params(BaseParams):
-    """Parameters."""
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        """Initialize the parameters object."""
-        self.validate_timeout = self._ensure("validate_timeout", kwargs)
-        super().__init__(*args, **kwargs)
-
-
-class RandomnessApi(ApiSpecs):
-    """A model for randomness api specifications."""
-
-
-Requests = BaseRequests
-BenchmarkTool = BaseBenchmarkTool
+Params = BaseParams

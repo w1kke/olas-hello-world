@@ -17,19 +17,15 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the behaviours for the 'liquidity_rebalancing_abci' skill."""
+"""This module contains the behaviours for the 'abci' skill."""
+
 from typing import Set, Type
 
 from packages.valory.skills.abstract_round_abci.behaviours import (
     AbstractRoundBehaviour,
     BaseBehaviour,
 )
-from packages.valory.skills.liquidity_provision_abci.composition import (
-    LiquidityProvisionAbciApp,
-)
-from packages.valory.skills.liquidity_rebalancing_abci.behaviours import (
-    LiquidityRebalancingConsensusBehaviour,
-)
+from packages.valory.skills.register_reset_abci.composition import RegisterResetAbciApp
 from packages.valory.skills.registration_abci.behaviours import (
     AgentRegistrationRoundBehaviour,
     RegistrationStartupBehaviour,
@@ -37,23 +33,14 @@ from packages.valory.skills.registration_abci.behaviours import (
 from packages.valory.skills.reset_pause_abci.behaviours import (
     ResetPauseABCIConsensusBehaviour,
 )
-from packages.valory.skills.safe_deployment_abci.behaviours import (
-    SafeDeploymentRoundBehaviour,
-)
-from packages.valory.skills.transaction_settlement_abci.behaviours import (
-    TransactionSettlementRoundBehaviour,
-)
 
 
-class LiquidityProvisionConsensusBehaviour(AbstractRoundBehaviour):
-    """This behaviour manages the consensus stages for the liquidity rebalancing."""
+class RegisterResetAbciAppConsensusBehaviour(AbstractRoundBehaviour):
+    """This behaviour manages the consensus stages for the register-reset."""
 
     initial_behaviour_cls = RegistrationStartupBehaviour
-    abci_app_cls = LiquidityProvisionAbciApp  # type: ignore
+    abci_app_cls = RegisterResetAbciApp  # type: ignore
     behaviours: Set[Type[BaseBehaviour]] = {
         *AgentRegistrationRoundBehaviour.behaviours,
-        *SafeDeploymentRoundBehaviour.behaviours,
-        *TransactionSettlementRoundBehaviour.behaviours,
         *ResetPauseABCIConsensusBehaviour.behaviours,
-        *LiquidityRebalancingConsensusBehaviour.behaviours,
     }

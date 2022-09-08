@@ -16,10 +16,18 @@
 #   limitations under the License.
 #
 # ------------------------------------------------------------------------------
+"""Configurations for Liquidity Provision skill's tests."""
 
-"""This module contains the liquidity rebalancing skill for an AEA."""
+# pylint: skip-file
 
-from aea.configurations.base import PublicId
+from unittest import mock
+
+import pytest
+
+from packages.valory.skills.liquidity_provision_abci.models import SharedState
 
 
-PUBLIC_ID = PublicId.from_str("valory/liquidity_provision_abci:0.1.0")
+@pytest.fixture
+def shared_state() -> SharedState:
+    """Initialize a test shared state."""
+    return SharedState(name="", skill_context=mock.MagicMock())

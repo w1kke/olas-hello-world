@@ -17,9 +17,12 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the liquidity rebalancing skill for an AEA."""
+"""Test the dialogues.py module of the skill."""
 
-from aea.configurations.base import PublicId
+# pylint: skip-file
+
+import packages.valory.skills.liquidity_provision_abci.handlers  # noqa
 
 
-PUBLIC_ID = PublicId.from_str("valory/liquidity_provision_abci:0.1.0")
+def test_import() -> None:
+    """Test that the 'handlers.py' Python module can be imported."""

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2022 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -17,11 +17,11 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the shared state for the safe_deployment_abci skill."""
+"""This module contains the shared state for the register-reset ABCI application."""
 
 from typing import Any
 
-from packages.valory.skills.abstract_round_abci.models import ApiSpecs, BaseParams
+from packages.valory.skills.abstract_round_abci.models import BaseParams
 from packages.valory.skills.abstract_round_abci.models import (
     BenchmarkTool as BaseBenchmarkTool,
 )
@@ -29,7 +29,14 @@ from packages.valory.skills.abstract_round_abci.models import Requests as BaseRe
 from packages.valory.skills.abstract_round_abci.models import (
     SharedState as BaseSharedState,
 )
-from packages.valory.skills.safe_deployment_abci.rounds import SafeDeploymentAbciApp
+from packages.valory.skills.register_reset_recovery_abci.composition import (
+    RegisterResetRecoveryAbciApp,
+)
+
+
+Requests = BaseRequests
+BenchmarkTool = BaseBenchmarkTool
+Params = BaseParams
 
 
 class SharedState(BaseSharedState):
@@ -37,21 +44,4 @@ class SharedState(BaseSharedState):
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize the state."""
-        super().__init__(*args, abci_app_cls=SafeDeploymentAbciApp, **kwargs)
-
-
-class Params(BaseParams):
-    """Parameters."""
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        """Initialize the parameters object."""
-        self.validate_timeout = self._ensure("validate_timeout", kwargs)
-        super().__init__(*args, **kwargs)
-
-
-class RandomnessApi(ApiSpecs):
-    """A model for randomness api specifications."""
-
-
-Requests = BaseRequests
-BenchmarkTool = BaseBenchmarkTool
+        super().__init__(*args, abci_app_cls=RegisterResetRecoveryAbciApp, **kwargs)

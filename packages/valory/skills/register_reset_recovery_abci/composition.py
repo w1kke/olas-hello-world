@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2022 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -17,9 +17,30 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the ABCI safe deployment skill for an AEA."""
+"""This module contains the register-reset ABCI application."""
 
-from aea.configurations.base import PublicId
+from packages.valory.skills.abstract_round_abci.abci_app_chain import (
+    AbciAppTransitionMapping,
+    chain,
+)
+from packages.valory.skills.register_reset_recovery_abci.rounds import (
+    RoundCountAbciApp,
+    RoundCountRound,
+)
+from packages.valory.skills.registration_abci.rounds import (
+    AgentRegistrationAbciApp,
+    FinishedRegistrationRound,
+)
 
 
-PUBLIC_ID = PublicId.from_str("valory/safe_deployment_abci:0.1.0")
+abci_app_transition_mapping: AbciAppTransitionMapping = {
+    FinishedRegistrationRound: RoundCountRound,
+}
+
+RegisterResetRecoveryAbciApp = chain(
+    (
+        AgentRegistrationAbciApp,
+        RoundCountAbciApp,
+    ),
+    abci_app_transition_mapping,
+)

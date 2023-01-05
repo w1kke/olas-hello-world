@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2022 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 # pylint: skip-file
 
 from packages.valory.skills.abstract_round_abci.test_tools.base import DummyContext
-from packages.valory.skills.safe_deployment_abci.models import SharedState
+from packages.valory.skills.register_reset_recovery_abci.models import SharedState
 
 
 class TestSharedState:

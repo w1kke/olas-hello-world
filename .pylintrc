@@ -1,33 +1,16 @@
 [MASTER]
 ignore-patterns=.*_pb2.py,contract_dispatcher.py,test_abci_messages.py,test_tendermint_messages.py
-ignore=packages/valory/protocols/abci,packages/valory/connections/abci/gogoproto
+ignore=packages/valory/protocols,packages/valory/connections
 
 [MESSAGES CONTROL]
 disable=C0103,R0801,C0301,C0201,C0204,C0209,W1203,C0302,R1735,R1729,W0511
 
-# See here for more options: https://www.codeac.io/documentation/pylint-configuration.html
-R1735: use-dict-literal
-R1729: use-a-generator
-C0103: invalid-name
-C0201: consider-iterating-dictionary
-W1203: logging-fstring-interpolation
-C0204: bad-mcs-classmethod-argument
-C0209: consider-using-f-string
-C0301: http://pylint-messages.wikidot.com/messages:c0301 > Line too long
-C0302: http://pylint-messages.wikidot.com/messages:c0302 > Too many lines in module
-R0801: similar lines
-
 [IMPORTS]
-ignored-modules=pandas,numpy,aea_cli_ipfs,compose,multidict
+ignored-modules=pandas,numpy,aea_cli_ipfs,compose,multidict,os,toml,abc
 
 [DESIGN]
-# min-public-methods=1
 max-public-methods=58
-# max-returns=10
-# max-bool-expr=7
 max-args=6
-# max-locals=31
-# max-statements=80
 max-parents=10
 max-branches=36
 max-attributes=8

@@ -381,33 +381,27 @@ $RECYCLE.BIN/
 
 Pipfile.lock
 
-!packages/valory/contracts/gnosis_safe/build
-!packages/valory/contracts/gnosis_safe_proxy_factory/build
-!packages/valory/contracts/multisend/build
-!packages/valory/contracts/service_registry/build
-!packages/valory/contracts/registries_manager/build
-!packages/valory/contracts/component_registry/build
-!packages/valory/contracts/agent_registry/build
-!packages/valory/contracts/service_manager/build
-!packages/valory/contracts/erc20/build
-!packages/valory/contracts/service_registry_token_utility/build
-
 packages/open_aea
 
-packages/valory/connections/http_client
-packages/valory/connections/ledger
-packages/valory/connections/p2p_libp2p_client
+packages/valory/protocols/
+packages/valory/connections/
+packages/valory/contracts/
 
-packages/valory/protocols/acn
-packages/valory/protocols/contract_api
-packages/valory/protocols/http
-packages/valory/protocols/ledger_api
-
-autonomy/data/contracts/registries_manager
-autonomy/data/contracts/component_registry
-autonomy/data/contracts/service_registry
-autonomy/data/contracts/agent_registry
-autonomy/data/contracts/service_manager
+packages/valory/skills/abstract_abci
+packages/valory/skills/abstract_round_abci
+packages/valory/skills/transaction_settlement_abci
+packages/valory/skills/registration_abci
+packages/valory/skills/reset_pause_abci
+packages/valory/skills/termination_abci
+packages/valory/skills/counter
+packages/valory/skills/counter_client
+packages/valory/skills/register_reset_abci
+packages/valory/skills/register_termination_abci
+packages/valory/skills/test_abci
+packages/valory/skills/register_reset_recovery_abci
+packages/valory/skills/slashing_abci
+packages/valory/skills/offend_abci
+packages/valory/skills/offend_slash_abci
 
 .vscode/
 

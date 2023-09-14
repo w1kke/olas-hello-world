@@ -17,8 +17,4 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the support resources for the multicall2 contract."""
-from pathlib import Path
-
-
-PACKAGE_DIR = Path(__file__).parent
+"""Services"""

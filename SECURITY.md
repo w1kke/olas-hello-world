@@ -1,19 +1,19 @@
 # Security Policy
 
-This document outlines security procedures and general policies for the `open-autonomy` project.
+This document outlines security procedures and general policies for the `hello-world` project.
 
 ## Supported Versions
 
-The following table shows which versions of `open-autonomy` are currently being supported with security updates.
+The following table shows which versions of `hello-world` are currently being supported with security updates.
 
 | Version   | Supported          |
 | --------- | ------------------ |
-| `0.12.1`   | :white_check_mark: |
-| `< 0.12.x` | :x:                |
+| `0.1.0`   | :white_check_mark: |
+| `< 0.1.x` | :x:                |
 
 ## Reporting a Vulnerability
 
-The `open-autonomy` team and community take all security bugs in `open-autonomy` seriously. Thank you for improving the security of `open-autonomy`. We appreciate your efforts and responsible disclosure and will make every effort to acknowledge your contributions.
+The `hello-world` team and community take all security bugs in `hello-world` seriously. Thank you for improving the security of `hello-world`. We appreciate your efforts and responsible disclosure and will make every effort to acknowledge your contributions.
 
 Report security bugs by emailing `info@valory.xyz`.
 

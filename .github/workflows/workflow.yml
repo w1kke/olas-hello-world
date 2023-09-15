@@ -217,19 +217,6 @@ jobs:
           tar -xf tendermint.tar.gz
           sudo mv tendermint /usr/local/bin/tendermint
 
-          # install skaffold
-          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/v1.39.1/skaffold-linux-amd64 && \
-          sudo chmod +x skaffold
-          sudo install skaffold /usr/local/bin/
-          skaffold --help
-
-          # build required images
-          skaffold build --push=false
-          skaffold build -p ci --push=false
-          TM_DEPLOYMENT_PATH="deployments/Dockerfiles/tendermint/"
-          TM_IMG_NAME="valory/open-autonomy-tendermint"
-          docker build $TM_DEPLOYMENT_PATH -t $TM_IMG_NAME:0.1.0 -t $TM_IMG_NAME:1.0.0 -t $TM_IMG_NAME:latest
-
           # pull pre-built images
           docker pull valory/autonolas-registries:latest
           docker pull valory/contracts-amm:latest
@@ -269,12 +256,6 @@ jobs:
           wget -O tendermint.tar.gz https://github.com/tendermint/tendermint/releases/download/v0.34.19/tendermint_0.34.19_darwin_amd64.tar.gz
           tar -xf tendermint.tar.gz
           sudo mv tendermint /usr/local/bin/tendermint
-
-          # install skaffold
-          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/v1.39.1/skaffold-darwin-amd64 && \
-          sudo chmod +x skaffold
-          sudo install skaffold /usr/local/bin/
-          skaffold --help
 
       - if: matrix.os == 'macos-latest'
         name: Packages unit tests macos-latest
@@ -316,11 +297,6 @@ jobs:
           wget -O tendermint.tar.gz https://github.com/tendermint/tendermint/releases/download/v0.34.19/tendermint_0.34.19_windows_amd64.tar.gz
           tar -xvzf tendermint.tar.gz
           cp tendermint.exe C:\Users\runneradmin\go\bin\
-
-          # install skaffold
-          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/v1.39.1/skaffold-windows-amd64.exe
-          cp skaffold C:\Users\runneradmin\go\bin\
-          skaffold --help
 
       - if: matrix.os == 'windows-latest'
         name: Packages unit tests windows-latest
@@ -383,10 +359,6 @@ jobs:
           wget -O tendermint.tar.gz https://github.com/tendermint/tendermint/releases/download/v0.34.19/tendermint_0.34.19_linux_amd64.tar.gz
           tar -xf tendermint.tar.gz
           sudo mv tendermint /usr/local/bin/tendermint
-
-          # install Skaffold needed in order to build the Flask with Tendermint image
-          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/v1.39.1/skaffold-linux-amd64 &&\
-            sudo install skaffold /usr/local/bin/
 
           # build the Flask with Tendermint image
           TM_DEPLOYMENT_PATH="deployments/Dockerfiles/tendermint/"

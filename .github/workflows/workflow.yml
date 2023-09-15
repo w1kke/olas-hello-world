@@ -239,11 +239,6 @@ jobs:
           docker pull trufflesuite/ganache:beta
 
       - if: matrix.os == 'ubuntu-latest'
-        name: Framework unit tests ubuntu-latest
-        run: |
-          tox -e py${{ matrix.python-version }}-linux -- -m 'not e2e'
-
-      - if: matrix.os == 'ubuntu-latest'
         name: Packages unit tests ubuntu-latest
         run: |
           tox -e packages-py${{ matrix.python-version }}-linux -- -m 'not e2e'
@@ -280,11 +275,6 @@ jobs:
           sudo chmod +x skaffold
           sudo install skaffold /usr/local/bin/
           skaffold --help
-
-      - if: matrix.os == 'macos-latest'
-        name: Framework unit tests macos-latest
-        run: |
-          tox -e py${{ matrix.python-version }}-darwin -- -m 'not e2e'
 
       - if: matrix.os == 'macos-latest'
         name: Packages unit tests macos-latest
@@ -331,11 +321,6 @@ jobs:
           curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/v1.39.1/skaffold-windows-amd64.exe
           cp skaffold C:\Users\runneradmin\go\bin\
           skaffold --help
-
-      - if: matrix.os == 'windows-latest'
-        name: Framework unit tests windows-latest
-        run: |
-          tox -e py${{ matrix.python-version }}-win -- -m 'not e2e'
 
       - if: matrix.os == 'windows-latest'
         name: Packages unit tests windows-latest

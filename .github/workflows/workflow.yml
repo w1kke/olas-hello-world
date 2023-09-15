@@ -360,15 +360,11 @@ jobs:
           tar -xf tendermint.tar.gz
           sudo mv tendermint /usr/local/bin/tendermint
 
-          # build the Flask with Tendermint image
-          TM_DEPLOYMENT_PATH="deployments/Dockerfiles/tendermint/"
-          TM_IMG_NAME="valory/open-autonomy-tendermint"
-          docker build $TM_DEPLOYMENT_PATH -t $TM_IMG_NAME:0.1.0 -t $TM_IMG_NAME:1.0.0 -t $TM_IMG_NAME:latest
-
           # pull pre-built images
           docker pull valory/autonolas-registries:latest
           docker pull valory/contracts-amm:latest
           docker pull valory/safe-contract-net:latest
+          docker pull valory/open-autonomy-tendermint:latest
           docker pull tendermint/tendermint:v0.34.19
           docker pull valory/slow-tendermint-server:0.1.0
 

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="100"
+   height="100"
+   viewBox="0 0 100 100"
+   fill="none"
+   version="1.1"
+   id="svg150"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs148">
+    <clipPath
+       id="clip1_205_32">
+      <rect
+         width="100"
+         height="100"
+         fill="white"
+         id="rect145" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath426">
+      <g
+         id="g430">
+        <rect
+           width="100"
+           height="100"
+           fill="#ffffff"
+           id="rect428"
+           x="0"
+           y="0" />
+      </g>
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath446">
+      <g
+         id="g452">
+        <g
+           id="g450">
+          <rect
+             width="100"
+             height="100"
+             fill="#ffffff"
+             id="rect448"
+             x="0"
+             y="0" />
+        </g>
+      </g>
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath454">
+      <g
+         id="g460">
+        <g
+           id="g458">
+          <rect
+             width="100"
+             height="100"
+             fill="#ffffff"
+             id="rect456"
+             x="0"
+             y="0" />
+        </g>
+      </g>
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath454-3">
+      <g
+         id="g460-6">
+        <g
+           id="g458-7">
+          <rect
+             width="100"
+             height="100"
+             fill="#ffffff"
+             id="rect456-5"
+             x="0"
+             y="0" />
+        </g>
+      </g>
+    </clipPath>
+  </defs>
+  <rect
+     style="fill:#7e22ce;fill-opacity:1;stroke-width:1.88976;stroke-linecap:round;stroke-dasharray:0, 0, 0, 0, 0, 0, 5.66926, 11.3385, 5.66926, 11.3385, 5.66926, 11.3385;stroke-opacity:0.933333"
+     id="rect452"
+     width="99.5"
+     height="99.5"
+     x="0.5"
+     y="0.5"
+     ry="9.0799627"
+     rx="9.0799627" />
+  <text
+     xml:space="preserve"
+     style="font-weight:bold;font-size:79.3565px;font-family:FreeMono;-inkscape-font-specification:'FreeMono Bold';fill:#ffffff;stroke-width:1.88976;stroke-linecap:round;stroke-dasharray:0, 0, 0, 0, 0, 0, 5.66925, 11.3385, 5.66925, 11.3385, 5.66925, 11.3385;stroke-opacity:0.933333"
+     x="11.749899"
+     y="70.700943"
+     id="text312"
+     transform="scale(0.9648827,1.0363954)"><tspan
+       id="tspan310"
+       x="11.749899"
+       y="70.700943"
+       style="stroke-width:1.88976">H!</tspan></text>
+</svg>

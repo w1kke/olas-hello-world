@@ -4,15 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-open-aea = {version = "==1.39.0.post1", extras = ["all"]}
-open-aea-cli-ipfs = "==1.39.0.post1"
-open-aea-cosmpy = "==0.6.5"
-open-aea-ledger-cosmos = "==1.39.0.post1"
-open-aea-ledger-ethereum = "==1.39.0.post1"
-open-aea-ledger-ethereum-hwi = "==1.39.0.post1"
-open-aea-test-autonomy = "==0.12.1.post4"
-open-aea-web3 = "==6.0.1"
-open-autonomy = {version = "==0.12.1.post4", extras = [ "all"]}
+open-aea = {version = "==1.41.0.post1", extras = ["all"]}
+open-aea-cli-ipfs = "==1.41.0.post1"
+open-aea-cosmpy = "==0.6.7"
+open-aea-ledger-cosmos = "==1.41.0.post1"
+open-aea-ledger-ethereum = "==1.41.0.post1"
+open-aea-ledger-ethereum-hwi = "==1.41.0.post1"
+open-aea-test-autonomy = "==0.13.5"
+web3 = "<7,>=6.0.0"
+open-autonomy = {version = "==0.13.5", extras = [ "all"]}
 
 [dev-packages]
 aiohttp = "<3.8,>=3.7.4"

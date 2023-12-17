@@ -1,6 +1,6 @@
 # Hello World agent service
 
-Example of an autonomous service using the [Open Autonomy](https://docs.autonolas.network/open-autonomy/) framework. It comprises a set of 4 autonomous agents designed to achieve consensus. The objective is to decide which agent should print a "Hello World" message on its console in each iteration. Please refer to the [Open Autonomy documentation - Demos - Hello World](https://docs.autonolas.network/open-autonomy/demos/hello_world_demo/) for more detailed information.
+Example of an autonomous service using the [Open Autonomy](https://docs.autonolas.network/open-autonomy/) framework. It comprises a set of 4 autonomous agents designed to achieve consensus. The objective is to decide which agent should print a "Hello World" message on its console in each iteration. Please refer to the [Open Autonomy documentation - Demos - Hello World](https://docs.autonolas.network/demos/hello-world/) for more detailed information.
 
 ## System requirements
 

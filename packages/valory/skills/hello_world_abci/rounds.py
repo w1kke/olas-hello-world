@@ -219,6 +219,6 @@ class HelloWorldAbciApp(AbciApp[Event]):
         },
     }
     event_to_timeout: Dict[Event, float] = {
-        Event.ROUND_TIMEOUT: 30.0,
-        Event.RESET_TIMEOUT: 30.0,
+        Event.ROUND_TIMEOUT: 5.0,
+        Event.RESET_TIMEOUT: 5.0,
     }

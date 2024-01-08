@@ -190,6 +190,7 @@ class PrintMessageBehaviour(HelloWorldABCIBaseBehaviour, ABC):
             == self.synchronized_data.most_voted_keeper_address
         ):
             message = self.params.hello_world_string
+            message = message + " The owners address is " + str(self.params.owner)
         else:
             message = ":|"
 
